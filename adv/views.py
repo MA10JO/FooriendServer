@@ -52,7 +52,7 @@ class PostDetail(DetailView):
 def category_page(request, slug):
         category = Category.objects.get(slug=slug)
         post_list = Post.objects.filter(category=category)
-        return render(request, 'review/post_list.html', {
+        return render(request, 'adv/post_list.html', {
             'category' : category,
             'post_list' : post_list,
             'categories' : Category.objects.all()
