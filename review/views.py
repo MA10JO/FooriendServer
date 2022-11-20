@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Post, Category
+from .models import Post, Category, Star
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
@@ -8,7 +8,7 @@ from django.utils.text import slugify
 # Create your views here.
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'head_image', 'file_upload', 'category']
+    fields = ['category', 'title', 'content', 'head_image', 'file_upload', 'star_point']
     #모델면_form.html
 
     def test_func(self):
@@ -21,12 +21,11 @@ class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             response = super(PostCreate, self).form_valid(form)
             return response
         else:
-            return redirect('/blog/')
+            return redirect('/review/')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PostCreate,self).get_context_data()
         context['categories'] = Category.objects.all()
-        context['no_category_post_count'] = Post.objects.filter(category=None).count
         return context
 
 class PostList(ListView):
@@ -36,7 +35,6 @@ class PostList(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PostList,self).get_context_data()
         context['categories'] = Category.objects.all()
-        context['no_category_post_count'] = Post.objects.filter(category=None).count
         return context
     # 템플릿은 모델명_list.html : post_list.html
     # 매개변수 모델명_list : post_list
@@ -49,19 +47,13 @@ class PostDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostDetail, self).get_context_data()
         context['categories'] = Category.objects.all()
-        context['no_category_post_count'] = Post.objects.filter(category=None).count
         return context
 
 def category_page(request, slug):
-        if slug == 'no_category':
-            category = "미분류"
-            Post.objects.filter(category=None)
-        else:
-            category = Category.objects.get(slug=slug)
-            post_list = Post.objects.filter(category=category)
-        return render(request, 'blog/post_list.html', {
+        category = Category.objects.get(slug=slug)
+        post_list = Post.objects.filter(category=category)
+        return render(request, 'review/post_list.html', {
             'category' : category,
             'post_list' : post_list,
-            'categories' : Category.objects.all(),
-            'no_category_post_count' : Post.objects.filter(category=None).count
+            'categories' : Category.objects.all()
         })

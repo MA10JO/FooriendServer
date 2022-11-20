@@ -6,5 +6,4 @@ urlpatterns = [  # IP주소/blog/
     path('<int:pk>/', views.PostDetail.as_view()),
     path('create_post/', views.PostCreate.as_view()),
     path('category/<str:slug>/', views.category_page)
-
 ]
