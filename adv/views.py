@@ -1,15 +1,50 @@
 from django.shortcuts import render, redirect
-from .models import Post, Category, State
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from .models import Post, Category, State, Comment
+from .serializers import AdvSerializer, CommentSerializer
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
 from django.utils.text import slugify
 
 # Create your views here.
+@csrf_exempt
+def PostList(request):
+    if request.method == 'GET':
+        query_set = Post.objects.all()
+        serializer = AdvSerializer(query_set, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = AdvSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.errors, status=400)
+
+@csrf_exempt
+def CommentList(request):
+    if request.method == 'GET':
+        query_set = Comment.objects.all()
+        serializer = CommentSerializer(query_set, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = CommentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.errors, status=400)
+
+"""
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     fields = ['state', 'category', 'title', 'content']
-    #모델면_form.html
+    #모델명_form.html
 
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
@@ -38,7 +73,7 @@ class PostList(ListView):
         return context
     # 템플릿은 모델명_list.html : post_list.html
     # 매개변수 모델명_list : post_list
-
+"""
 class PostDetail(DetailView):
     model = Post
     # 템플릿은 모델명_detail.html : post_detail.html
@@ -48,7 +83,7 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data()
         context['categories'] = Category.objects.all()
         return context
-
+"""
 def category_page(request, slug):
         category = Category.objects.get(slug=slug)
         post_list = Post.objects.filter(category=category)
@@ -57,3 +92,4 @@ def category_page(request, slug):
             'post_list' : post_list,
             'categories' : Category.objects.all()
         })
+"""
