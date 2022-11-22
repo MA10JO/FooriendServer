@@ -56,7 +56,7 @@ class Post(models.Model):
         return f'[{self.pk}]{self.title}::{self.author} : {self.created_at}'
 
     def get_absolute_url(self):
-        return f'/adv/{self.pk}/'
+        return f'/adv/{self.pk}/' #dd
 
 
 class Comment(models.Model):
