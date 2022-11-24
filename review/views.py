@@ -1,10 +1,44 @@
 from django.shortcuts import render, redirect
-from .models import Post, Category, Star
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
-from django.utils.text import slugify
+from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.parsers import JSONParser
+from .models import Post, Category,  Comment
+from .serializers import AdvSerializer, CommentSerializer
 
+# Create your views here.
+@csrf_exempt
+def PostList(request):
+    if request.method == 'GET':
+        query_set = Post.objects.all()
+        serializer = AdvSerializer(query_set, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = AdvSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.errors, status=400)
+
+
+@csrf_exempt
+def CommentList(request):
+    if request.method == 'GET':
+        query_set = Comment.objects.all()
+        serializer = CommentSerializer(query_set, many=True)
+        return JsonResponse(serializer.data, safe=False)
+
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = CommentSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, safe=False)
+        return JsonResponse(serializer.errors, status=400)
+
+
+"""
 # Create your views here.
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
@@ -57,3 +91,4 @@ def category_page(request, slug):
             'post_list' : post_list,
             'categories' : Category.objects.all()
         })
+"""

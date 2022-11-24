@@ -1,3 +1,4 @@
+import self as self
 from django.db import models
 from django.contrib.auth.models import User
 import os
@@ -45,18 +46,18 @@ class Post(models.Model):
 
     content = models.TextField()
 
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     # 추후 author 작성
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL, related_name='+')
 
-
     def __str__(self):
         return f'[{self.pk}]{self.title}::{self.author} : {self.created_at}'
 
     def get_absolute_url(self):
-        return f'/adv/{self.pk}/' #dd
+        return f'/adv/{self.pk}/'
 
 
 class Comment(models.Model):
@@ -66,8 +67,12 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
+
     def __str__(self):
         return f'{self.author} : {self.content}'
+
+    def get_pk(self):
+        return self.pk
 
     def get_absolute_url(self):
         return f'{self.post.get_absolute_url()}#comment-{self.pk}'

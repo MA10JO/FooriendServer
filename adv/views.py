@@ -25,6 +25,7 @@ def PostList(request):
             return JsonResponse(serializer.data, safe=False)
         return JsonResponse(serializer.errors, status=400)
 
+
 @csrf_exempt
 def CommentList(request):
     if request.method == 'GET':
@@ -39,6 +40,7 @@ def CommentList(request):
             serializer.save()
             return JsonResponse(serializer.data, safe=False)
         return JsonResponse(serializer.errors, status=400)
+
 
 """
 class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -73,7 +75,7 @@ class PostList(ListView):
         return context
     # 템플릿은 모델명_list.html : post_list.html
     # 매개변수 모델명_list : post_list
-"""
+
 class PostDetail(DetailView):
     model = Post
     # 템플릿은 모델명_detail.html : post_detail.html
@@ -83,7 +85,7 @@ class PostDetail(DetailView):
         context = super(PostDetail, self).get_context_data()
         context['categories'] = Category.objects.all()
         return context
-"""
+
 def category_page(request, slug):
         category = Category.objects.get(slug=slug)
         post_list = Post.objects.filter(category=category)

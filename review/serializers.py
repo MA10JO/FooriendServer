@@ -11,5 +11,4 @@ class CommentSerializer(serializers.ModelSerializer):
 class AdvSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['state', 'title', 'category', 'party', 'content', 'author']
-
+        fields = ['title', 'category','head_image','star_point', 'content', 'author']
