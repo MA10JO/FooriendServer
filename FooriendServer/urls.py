@@ -18,13 +18,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+import login_page
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('login_page.urls')),
+    path('login_page/', include('login_page.urls')),
     path('review/', include('review.urls')),
     path('adv/', include('adv.urls')),
     path('community/', include('community.urls')),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+
 ]
 
 

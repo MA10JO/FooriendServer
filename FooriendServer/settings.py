@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'community',
     'adv',
     'review',
+    'login_page',
 ]
 
 
