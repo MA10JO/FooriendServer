@@ -1,13 +1,14 @@
 # FooriendServer
 
-git에서 데이터베이스와 가상환경까지 관리하지는 않도록 설정했기 때문에
-여기서 고대로 pull 하셔도 추가 작업을 하셔야 하기 때문에!
-서버 작업한 부분을 구글드라이브에 올려두었습니다
+git에서 데이터베이스와 가상환경까지 관리하지는 않도록 설정하는 것이 일반적이라
+여기서 고대로 pull 하셔도 파이참을 실행해서 추가 작업을 하셔야 하기 때문에!
+
+그냥 서버 작업 폴더를 통채로 구글드라이브에 올려두었습니다
 
 https://drive.google.com/file/d/1sHom_Hb8dch0ozhMNK4l7-TJEur-d2dn/view?usp=share_link
 여기서 다운로드 받으신 뒤에
 
-대충 C에 풀어두시고 
+대충 C에 풀어두시고 (경로에 한글만 없다면 어디든 ok)
 manage.py 파일이 있는 FooriendServer폴더의 위치에서 cmd를 실행해서
 
 pip install django
