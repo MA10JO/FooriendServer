@@ -25,6 +25,6 @@ python manage.py runserver
 설치는 한번만 하시면 되고
 서버를 다시 열고 싶으면 
 
-  FooriendServer폴더 위치에서 cmd 실행 > venv어쩌구 명령어 복붙 > 런서버 명령어 복붙
+# FooriendServer폴더 위치에서 cmd 실행 > venv어쩌구 명령어 복붙 > 런서버 명령어 복붙
 
 이렇게 하시면 됩니다.
