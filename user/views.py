@@ -18,7 +18,10 @@ class SignUpView(View):
 
             Account(
                 email=data['email'],
-                password=data['password']
+                password=data['password'],
+                name=data['name'],
+                nickname=data['nickname'],
+                phoneNum=data['phoneNum']
             ).save()
 
             return HttpResponse(status=200)
