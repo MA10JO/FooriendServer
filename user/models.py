@@ -1,5 +1,6 @@
 from django.db import models
 
+#모델
 class Account(models.Model):
     email = models.CharField(max_length = 200, unique=True, verbose_name='유저 이메일')
     password = models.CharField(max_length = 500, verbose_name='유저 비밀번호')
