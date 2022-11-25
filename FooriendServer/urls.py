@@ -18,11 +18,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-import login_page
+import user
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login_page/', include('login_page.urls')),
+    path('user/', include('user.urls')),
     path('review/', include('review.urls')),
     path('adv/', include('adv.urls')),
     path('community/', include('community.urls')),
