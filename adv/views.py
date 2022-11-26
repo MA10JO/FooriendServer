@@ -1,36 +1,34 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from .models import Post, Category, State, Comment
-from .serializers import AdvSerializer, CommentSerializer
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
-from django.utils.text import slugify
+from .models import Post, Comment
+from .serializers import PostSerializer, CommentSerializer
 
-# Create your views here.
 @csrf_exempt
 def PostList(request):
     if request.method == 'GET':
-        query_set = Post.objects.all()
-        serializer = AdvSerializer(query_set, many=True)
+        posts = Post.objects.all()
+        serializer = PostSerializer(posts, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer = AdvSerializer(data=data)
+        serializer = PostSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, safe=False)
+            return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
-
 @csrf_exempt
-def CommentList(request):
+def CommentDetail(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+        return JsonResponse(status=404)
+
     if request.method == 'GET':
-        query_set = Comment.objects.all()
-        serializer = CommentSerializer(query_set, many=True)
+        comments = Comment.objects.all()
+        serializer = CommentSerializer(comments, many=True)
         return JsonResponse(serializer.data, safe=False)
 
     elif request.method == 'POST':
@@ -38,60 +36,27 @@ def CommentList(request):
         serializer = CommentSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, safe=False)
+            return JsonResponse(serializer.data, status=201)
         return JsonResponse(serializer.errors, status=400)
 
+def PostDetail(request, pk):
+    try:
+        post = Post.objects.get(pk=pk)
+    except Post.DoesNotExist:
+        return JsonResponse(status=404)
 
-"""
-class PostCreate(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    model = Post
-    fields = ['state', 'category', 'title', 'content']
-    #모델명_form.html
+    if request.method == 'GET':
+        serializer = PostSerializer(post)
+        return JsonResponse(serializer.data)
 
-    def test_func(self):
-        return self.request.user.is_superuser or self.request.user.is_staff
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = PostSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
 
-    def form_valid(self, form):
-        current_user = self.request.user
-        if current_user.is_authenticated and (current_user.is_superuser or current_user.is_staff):
-            form.instance.author = current_user
-            response = super(PostCreate, self).form_valid(form)
-            return response
-        else:
-            return redirect('/adv/')
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(PostCreate,self).get_context_data()
-        context['categories'] = Category.objects.all()
-        return context
-
-class PostList(ListView):
-    model = Post
-    ordering = '-pk'
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super(PostList,self).get_context_data()
-        context['categories'] = Category.objects.all()
-        return context
-    # 템플릿은 모델명_list.html : post_list.html
-    # 매개변수 모델명_list : post_list
-
-class PostDetail(DetailView):
-    model = Post
-    # 템플릿은 모델명_detail.html : post_detail.html
-    # 매개변수 모델명 : post
-
-    def get_context_data(self, **kwargs):
-        context = super(PostDetail, self).get_context_data()
-        context['categories'] = Category.objects.all()
-        return context
-
-def category_page(request, slug):
-        category = Category.objects.get(slug=slug)
-        post_list = Post.objects.filter(category=category)
-        return render(request, 'adv/post_list.html', {
-            'category' : category,
-            'post_list' : post_list,
-            'categories' : Category.objects.all()
-        })
-"""
+    elif request.method == 'DELETE':
+        post.delete()
+        return JsonResponse(status=204)

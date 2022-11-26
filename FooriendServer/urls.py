@@ -18,15 +18,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-import user
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', include('user.urls')),
     path('review/', include('review.urls')),
     path('adv/', include('adv.urls')),
-    path('community/', include('community.urls')),
-
+    path('community/', include('community.urls'))
 ]
 
 
