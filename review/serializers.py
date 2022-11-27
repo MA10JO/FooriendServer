@@ -5,14 +5,14 @@ from .models import *
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
         model = File
-        fields = '__all__'
+        fields = ['post', 'content']
 
 class CommentSerializer(serializers.ModelSerializer):
     author_userid = serializers.SerializerMethodField()
 
     class Meta:
         model = Comment
-        fields = ['post', 'author', 'content', 'created_at', 'author_userid']
+        fields = ['post', 'author', 'author_userid', 'content', 'created_at']
 
     def get_author_userid(self, obj):
         return obj.author.userid
@@ -24,7 +24,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['author', 'title', 'content', 'category','star_point', 'author_userid',
+        fields = ['pk', 'author', 'author_userid', 'title', 'content', 'category','star_point',
                   'created_at', 'post_comment']
 
     def get_author_userid(self, obj):

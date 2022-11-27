@@ -6,7 +6,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['post', 'author', 'content', 'created_at', 'author_userid']
+        fields = ['post', 'author', 'author_userid', 'content', 'created_at']
 
     def get_author_userid(self, obj):
         return obj.author.userid
@@ -18,7 +18,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['author', 'title', 'content', 'category','state','party', 'author_userid',
+        fields = ['author', 'author_userid', 'title', 'content', 'category', 'state', 'party',
                   'created_at', 'post_comment']
 
     def get_author_userid(self, obj):

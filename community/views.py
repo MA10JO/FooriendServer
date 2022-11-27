@@ -20,12 +20,7 @@ def PostList(request):
         return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
-def CommentDetail(request, pk):
-    try:
-        post = Post.objects.get(pk=pk)
-    except Post.DoesNotExist:
-        return JsonResponse(status=404)
-
+def CommentDetail(request):
     if request.method == 'GET':
         comments = Comment.objects.all()
         serializer = CommentSerializer(comments, many=True)
