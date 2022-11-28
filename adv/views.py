@@ -1,8 +1,15 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer
+from .models import Post, Comment, Category
+from .serializers import PostSerializer, CommentSerializer, Category_PostSerializer, CategorySerializer
+
+@csrf_exempt
+def CategoryList(request):
+    if request.method == 'GET':
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
 def PostList(request):
@@ -55,3 +62,13 @@ def PostDetail(request, pk):
     elif request.method == 'DELETE':
         post.delete()
         return JsonResponse(status=204)
+
+def CategoryPostList(request, pk):
+    try:
+        categories = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        return JsonResponse(status=404)
+
+    if request.method == 'GET':
+        serializer = Category_PostSerializer(categories)
+        return JsonResponse(serializer.data)

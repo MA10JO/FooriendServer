@@ -42,9 +42,9 @@ INSTALLED_APPS = [
     'drf_yasg',  # drf_yasg
     'rest_framework',  # djangorestframework
 
+    'user',
     'community',
     'adv',
-    'user',
     'review',
 ]
 
