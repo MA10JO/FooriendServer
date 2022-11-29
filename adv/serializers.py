@@ -18,7 +18,7 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ['pk', 'author', 'author_userid', 'title', 'content', 'category', 'state', 'party',
+        fields = ['author', 'author_userid', 'title', 'content', 'category', 'state', 'party',
                   'created_at', 'post_comment']
 
     def get_author_userid(self, obj):
@@ -36,7 +36,6 @@ class Category_PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['name', 'post_list']
-
 
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:

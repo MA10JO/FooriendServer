@@ -12,6 +12,7 @@ def CategoryList(request):
         return JsonResponse(serializer.data, safe=False)
 
 
+
 @csrf_exempt
 def PostList(request):
     if request.method == 'GET':
@@ -63,6 +64,7 @@ def PostDetail(request, pk):
     elif request.method == 'DELETE':
         post.delete()
         return JsonResponse(status=204)
+
 
 def CategoryPostList(request, pk):
     try:

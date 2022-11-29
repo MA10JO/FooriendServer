@@ -43,7 +43,6 @@ class Category_PostSerializer(serializers.ModelSerializer):
         model = Category
         fields = ['name', 'post_list']
 
-
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = Account

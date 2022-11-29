@@ -11,6 +11,7 @@ def CategoryList(request):
         serializer = CategorySerializer(categories, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+
 @csrf_exempt
 def PostList(request):
     if request.method == 'GET':
