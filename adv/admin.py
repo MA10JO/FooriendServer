@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Post, Comment, Category, State, Account
+from .models import Post, Comment, Category, State
 
 # Register your models here.
-admin.site.register(Account)
 
 admin.site.register(Post)
 

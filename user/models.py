@@ -10,6 +10,9 @@ class Account(models.Model):
     created_at = models.DateTimeField(auto_now_add = True, verbose_name='계정 생성시간')
     updated_at = models.DateTimeField(auto_now = True, verbose_name='계정 업데이트 시간')
 
+    def __str__(self):
+        return f'{self.name}'
+
     class Meta:
         db_table = "account"
         verbose_name = '유저'
