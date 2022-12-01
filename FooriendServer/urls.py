@@ -25,8 +25,8 @@ urlpatterns = [
     path('review/', include('review.urls')),
     path('adv/', include('adv.urls')),
     path('community/', include('community.urls')),
-    path('user/signUp', SignUpView.as_view()),
-    path('user/signIn', SignInView.as_view()),
+    path('user/signup', SignUpView.as_view()),
+    path('user/signin', SignInView.as_view()),
 ]
 
 
