@@ -18,12 +18,15 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+from user.views import SignUpView, SignInView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('review/', include('review.urls')),
     path('adv/', include('adv.urls')),
     path('community/', include('community.urls')),
-    path('user/', include('user.urls')),
+    path('user/signUp', SignUpView.as_view()),
+    path('user/signIn', SignInView.as_view()),
 ]
 
 
