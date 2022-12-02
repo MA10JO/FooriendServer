@@ -1,5 +1,8 @@
 import json
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
 from .models import Account
 
 from django.views import View
@@ -9,6 +12,7 @@ from django.http import JsonResponse, HttpResponse
 # Create your views here.
 
 # 회원 가입
+@method_decorator(csrf_exempt, name='dispatch')
 class SignUpView(View):
     def post(self, request):
         data = json.loads(request.body)
@@ -30,6 +34,7 @@ class SignUpView(View):
 
 
 # 로그인
+@method_decorator(csrf_exempt, name='dispatch')
 class SignInView(View):
     def post(self, request):
         data = json.loads(request.body)
@@ -43,7 +48,7 @@ class SignInView(View):
 
                 return HttpResponse(status=401)
 
-                return HttpResponse(status=400)
+            return HttpResponse(status=400)
 
         except KeyError:
             return JsonResponse({"message": "INVALID_KEYS"}, status=400)
