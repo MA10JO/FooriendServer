@@ -2,8 +2,6 @@ from rest_framework import serializers
 from .models import *
 
 class CommentSerializer(serializers.ModelSerializer):
-
-
     class Meta:
         model = Comment
         fields = ['post', 'name',  'content', 'created_at']
@@ -12,12 +10,11 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-
     post_comment = CommentSerializer(many=True, read_only=True, source="comment_set")
 
     class Meta:
         model = Post
-        fields = ['name',  'title', 'content', 'category',
+        fields = ['pk', 'name',  'title', 'content', 'category',
                   'created_at', 'post_comment']
 
 
