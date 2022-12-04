@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from .models import *
 
+class UserSerializser(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['post', 'userid']
+
 
 class FileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -8,22 +13,19 @@ class FileSerializer(serializers.ModelSerializer):
         fields = ['post', 'content']
 
 class CommentSerializer(serializers.ModelSerializer):
-
-
+    author_userid = UserSerializser(read_only=True)
     class Meta:
         model = Comment
-        fields = ['post', 'name', 'content', 'created_at']
-
+        fields = ['post', 'name', 'nickname', 'author_userid', 'content', 'created_at']
 
 
 class PostSerializer(serializers.ModelSerializer):
     post_comment = CommentSerializer(many=True, read_only=True, source="comment_set")
-
+    author_userid = UserSerializser(read_only=True)
     class Meta:
         model = Post
-        fields = ['pk', 'name',  'title', 'content', 'category','star_point',
+        fields = ['pk', 'name', 'nickname', 'author_userid',  'title', 'content', 'category','star_point',
                   'created_at', 'post_comment']
-
 
 
 class CategorySerializer(serializers.ModelSerializer):

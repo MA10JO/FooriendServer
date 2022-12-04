@@ -6,5 +6,6 @@ urlpatterns = [
     path('<int:pk>/', views.PostDetail),
     path('comment/', views.CommentDetail),
     path('categories/<int:pk>/', views.CategoryPostList),
-    path('categories/', views.CategoryList)
+    path('categories/', views.CategoryList),
+    path('user/', views.UserList)
 ]

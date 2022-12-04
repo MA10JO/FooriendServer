@@ -34,6 +34,7 @@ class State(models.Model):
 
 class Post(models.Model):
     name = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, related_name='+')
+    nickname = models.CharField(max_length=50, default='', null=True)
     title = models.CharField(max_length=100, null=True)
     content = models.TextField(null=True, blank=True)
     party = models.CharField(max_length=30)
@@ -49,6 +50,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     name = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, related_name='+')
+    nickname = models.CharField(max_length=50, default='', null=True)
     content = models.TextField(blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -22,6 +22,7 @@ class Post(models.Model):
     name = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, related_name='+')
     title = models.CharField(max_length=100, null=True)
     content = models.TextField(null=True, blank=True)
+    nickname = models.CharField(max_length=50, default='', null=True)
 
     category = models.ForeignKey(Category, null=True, blank=False, on_delete=models.SET_NULL)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -33,6 +34,7 @@ class Post(models.Model):
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
     name = models.ForeignKey(Account, on_delete=models.DO_NOTHING, null=True, related_name='+')
+    nickname = models.CharField(max_length=50, default='', null=True)
     content = models.TextField(blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -13,6 +13,9 @@ class Account(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+    def get_nickname(self):
+        return Account.nickname
+
     class Meta:
         db_table = "account"
         verbose_name = '유저'

@@ -1,8 +1,15 @@
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from .models import Post, Comment, File, Category
-from .serializers import PostSerializer, CommentSerializer, FileSerializer, Category_PostSerializer, CategorySerializer
+from .models import Post, Comment, File, Category, User
+from .serializers import PostSerializer, CommentSerializer, FileSerializer, Category_PostSerializer, CategorySerializer, UserSerializser
+
+@csrf_exempt
+def UserList(request):
+    if request.method == 'GET':
+        users = User.objects.all()
+        serializer = UserSerializser(users, many=True)
+        return JsonResponse(serializer.data, safe=False)
 
 @csrf_exempt
 def CategoryList(request):
@@ -10,8 +17,6 @@ def CategoryList(request):
         categories = Category.objects.all()
         serializer = CategorySerializer(categories, many=True)
         return JsonResponse(serializer.data, safe=False)
-
-
 
 @csrf_exempt
 def PostList(request):
